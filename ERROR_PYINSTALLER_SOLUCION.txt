@@ -1,0 +1,133 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║  ⚠️ ERROR: "pyinstaller no se reconoce como comando"       ║
+║                    SOLUCIÓN INMEDIATA                        ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  🔧 SOLUCIÓN RÁPIDA (3 PASOS)                               │
+└──────────────────────────────────────────────────────────────┘
+
+PASO 1: Instalar PyInstaller correctamente
+→ Ejecuta: INSTALAR_PYINSTALLER.bat
+→ Espera a que termine
+→ Verifica que diga "PyInstaller instalado correctamente"
+
+PASO 2: Crear el ejecutable
+→ Clic derecho en: CREAR_EXE_SIMPLE.bat
+→ Selecciona: "Ejecutar como administrador"
+→ Espera 5-10 minutos
+
+PASO 3: Verificar resultado
+→ Ve a la carpeta "dist"
+→ Ahí debe estar: GestionPolizas.exe
+→ ¡Listo!
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  ❓ ¿POR QUÉ SUCEDIÓ ESTE ERROR?                            │
+└──────────────────────────────────────────────────────────────┘
+
+El error "pyinstaller no se reconoce como comando" ocurre porque:
+
+❌ PyInstaller no está instalado
+❌ PyInstaller no está en el PATH de Windows
+❌ pip no instaló PyInstaller correctamente
+
+✅ SOLUCIÓN: Usar "python -m PyInstaller" en lugar de solo "pyinstaller"
+✅ Los scripts ya fueron actualizados con esta corrección
+✅ El nuevo archivo INSTALAR_PYINSTALLER.bat lo instala correctamente
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  💡 MÉTODO ALTERNATIVO (Manual)                             │
+└──────────────────────────────────────────────────────────────┘
+
+Si prefieres hacerlo manualmente:
+
+1. Abre CMD o PowerShell como Administrador
+
+2. Ejecuta estos comandos:
+
+   python -m pip install --upgrade pip
+   python -m pip install --upgrade pyinstaller
+
+3. Verifica que se instaló:
+
+   python -m PyInstaller --version
+
+4. Luego ejecuta cualquier script de creación de .exe
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  🎯 ORDEN CORRECTO DE EJECUCIÓN                             │
+└──────────────────────────────────────────────────────────────┘
+
+Para evitar errores, ejecuta en ESTE ORDEN:
+
+1️⃣ INSTALAR.bat
+   ↓
+2️⃣ INSTALAR_PYINSTALLER.bat  ⭐ NUEVO
+   ↓
+3️⃣ CREAR_EXE_SIMPLE.bat (o cualquier otro de creación de .exe)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  ✅ CONFIRMACIÓN DE QUE TODO ESTÁ BIEN                      │
+└──────────────────────────────────────────────────────────────┘
+
+Después de ejecutar INSTALAR_PYINSTALLER.bat, deberías ver:
+
+✓ "PyInstaller instalado correctamente"
+✓ Un número de versión (ej: PyInstaller 6.x.x)
+✓ Sin mensajes de error
+
+Si ves esto, ¡estás listo para crear el .exe!
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  🆘 SI AÚN NO FUNCIONA                                      │
+└──────────────────────────────────────────────────────────────┘
+
+1. Verifica que Python esté instalado:
+   → Abre CMD y escribe: python --version
+   → Debe mostrar Python 3.8 o superior
+
+2. Verifica que pip funcione:
+   → Abre CMD y escribe: python -m pip --version
+   → Debe mostrar la versión de pip
+
+3. Si Python no se reconoce:
+   → Reinstala Python desde: https://www.python.org/downloads/
+   → IMPORTANTE: Marca la casilla "Add Python to PATH"
+   → Reinicia la computadora
+
+4. Si pip no funciona:
+   → Ejecuta: python -m ensurepip --upgrade
+
+5. Lee el archivo completo de soluciones:
+   → SOLUCION_PROBLEMAS_EXE.txt
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  📝 LO QUE CAMBIÓ EN LOS SCRIPTS                            │
+└──────────────────────────────────────────────────────────────┘
+
+ANTES (causaba error):
+→ pip install pyinstaller
+→ pyinstaller --onefile main.py
+
+AHORA (funciona siempre):
+→ python -m pip install pyinstaller
+→ python -m PyInstaller --onefile main.py
+
+La diferencia: Usar "python -m" asegura que se use el Python
+correcto y que los comandos se encuentren.
+
+
+═══════════════════════════════════════════════════════════════
+              ¡Los scripts ya están corregidos!
+           Solo ejecuta INSTALAR_PYINSTALLER.bat
+═══════════════════════════════════════════════════════════════

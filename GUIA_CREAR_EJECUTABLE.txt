@@ -1,0 +1,123 @@
+═══════════════════════════════════════════════════════════════
+    GUÍA PARA CREAR EJECUTABLE STANDALONE (.EXE)
+═══════════════════════════════════════════════════════════════
+
+OPCIÓN 1: EJECUTABLE ÚNICO (UN SOLO ARCHIVO .EXE)
+--------------------------------------------------
+✓ Archivo: CREAR_EJECUTABLE.bat
+✓ Resultado: UN solo archivo .exe
+✓ Ventajas: Fácil de distribuir (un solo archivo)
+✓ Desventajas: Inicia un poco más lento, pesa más (50-100 MB)
+
+CÓMO USAR:
+1. Doble clic en "CREAR_EJECUTABLE.bat"
+2. Espera 5-10 minutos
+3. El archivo "GestionPolizas.exe" estará en la carpeta "dist"
+4. Copia ese archivo a cualquier PC y ejecútalo
+
+
+OPCIÓN 2: VERSION PORTABLE (CARPETA CON EJECUTABLE)
+---------------------------------------------------
+✓ Archivo: CREAR_EJECUTABLE_AVANZADO.bat
+✓ Resultado: Carpeta con ejecutable y archivos
+✓ Ventajas: Inicia más rápido, mejor rendimiento
+✓ Desventajas: Son varios archivos en una carpeta
+
+CÓMO USAR:
+1. Doble clic en "CREAR_EJECUTABLE_AVANZADO.bat"
+2. Espera 5-10 minutos
+3. La carpeta "GestionPolizas_Portable" estará en "dist"
+4. Comprime la carpeta en ZIP
+5. Distribuye el ZIP
+
+═══════════════════════════════════════════════════════════════
+    REQUISITOS PARA CREAR EL EJECUTABLE
+═══════════════════════════════════════════════════════════════
+
+SOLO NECESITAS (en tu PC de desarrollo):
+• Windows 7 o superior
+• Python 3.8+ instalado
+• Las dependencias instaladas (ejecuta INSTALAR.bat primero)
+
+IMPORTANTE: 
+El ejecutable que crees NO requerirá Python en otras PCs
+Solo TÚ necesitas Python para CREARLO
+
+═══════════════════════════════════════════════════════════════
+    QUÉ INCLUYE EL EJECUTABLE
+═══════════════════════════════════════════════════════════════
+
+✓ Python 3.x (completo)
+✓ CustomTkinter (interfaz gráfica)
+✓ OpenPyXL (exportación a Excel)
+✓ SQLite3 (base de datos)
+✓ Todas las dependencias necesarias
+
+TOTAL: Todo lo necesario para funcionar sin instalar nada
+
+═══════════════════════════════════════════════════════════════
+    DISTRIBUCIÓN DEL EJECUTABLE
+═══════════════════════════════════════════════════════════════
+
+Para Opción 1 (Archivo único):
+1. Copia "dist\GestionPolizas.exe"
+2. Envíalo por email, USB, OneDrive, etc.
+3. El usuario hace doble clic y listo
+
+Para Opción 2 (Portable):
+1. Comprime "dist\GestionPolizas_Portable" en ZIP
+2. Distribuye el ZIP
+3. El usuario descomprime y ejecuta
+
+═══════════════════════════════════════════════════════════════
+    COMPATIBILIDAD
+═══════════════════════════════════════════════════════════════
+
+El ejecutable funcionará en:
+✓ Windows 7 (32 y 64 bits)
+✓ Windows 8/8.1
+✓ Windows 10
+✓ Windows 11
+
+NO requiere:
+✗ Python instalado
+✗ Visual Studio
+✗ .NET Framework
+✗ Permisos de administrador (para ejecutar)
+✗ Conexión a Internet
+
+═══════════════════════════════════════════════════════════════
+    SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════
+
+Error: "Python no está instalado"
+→ Instala Python primero en TU PC de desarrollo
+→ Solo necesitas Python para CREAR el ejecutable
+
+Error: "No se puede crear el ejecutable"
+→ Ejecuta primero INSTALAR.bat
+→ Verifica que tienes espacio en disco (necesitas ~500 MB libres)
+
+El .exe pesa mucho (50-100 MB):
+→ Es normal, incluye Python completo y todas las librerías
+→ No se puede reducir significativamente sin comprometer funcionalidad
+
+El .exe inicia lento:
+→ Usa la Opción 2 (portable) en su lugar
+→ O espera, solo el primer inicio es lento
+
+═══════════════════════════════════════════════════════════════
+    RECOMENDACIÓN FINAL
+═══════════════════════════════════════════════════════════════
+
+Para distribución profesional: 
+→ Usa OPCIÓN 2 (Portable)
+→ Mejor rendimiento
+→ Más profesional
+
+Para envío rápido por email:
+→ Usa OPCIÓN 1 (Archivo único)
+→ Más fácil de enviar
+→ Un solo archivo
+
+═══════════════════════════════════════════════════════════════

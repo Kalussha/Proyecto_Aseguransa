@@ -1,0 +1,132 @@
+═══════════════════════════════════════════════════════════════
+    🚀 INICIO RÁPIDO - ¿QUÉ ARCHIVO EJECUTAR?
+═══════════════════════════════════════════════════════════════
+
+
+┌───────────────────────────────────────────────────────────┐
+│  ❓ SI ERES DESARROLLADOR O TIENES EL CÓDIGO FUENTE       │
+└───────────────────────────────────────────────────────────┘
+
+1️⃣ Primera vez (configuración inicial):
+   → Ejecuta: INSTALAR.bat
+   
+2️⃣ Para probar la aplicación:
+   → Ejecuta: EJECUTAR.bat
+
+3️⃣ Para crear ejecutable (.exe) que NO requiera instalar nada:
+   
+   ⭐ PRIMERO (MUY IMPORTANTE):
+   → Ejecuta: INSTALAR_PYINSTALLER.bat
+   → Esto evita el error "pyinstaller no se reconoce"
+   
+   LUEGO, elige una opción:
+   
+   🟢 RECOMENDADO - Script simple y robusto:
+   → Ejecuta: CREAR_EXE_SIMPLE.bat
+   → Resultado: dist\GestionPolizas.exe (50-100 MB)
+   
+   🔵 OPCIÓN A - Archivo único (más fácil de distribuir):
+   → Ejecuta: CREAR_EJECUTABLE.bat
+   → Resultado: dist\GestionPolizas.exe (50-100 MB)
+   
+   🟣 OPCIÓN B - Versión portable (mejor rendimiento):
+   → Ejecuta: CREAR_EJECUTABLE_AVANZADO.bat
+   → Resultado: dist\GestionPolizasPortable\ (carpeta)
+
+   ⚠️ IMPORTANTE: Ejecuta como Administrador (clic derecho)
+
+4️⃣ ¿Problemas al crear el .exe?
+   → Lee: SOLUCION_PROBLEMAS_EXE.txt (NUEVA GUÍA)
+   → O lee: COMO_CREAR_EXE.txt
+
+
+┌───────────────────────────────────────────────────────────┐
+│  👤 SI RECIBISTE EL EJECUTABLE (.exe)                     │
+└───────────────────────────────────────────────────────────┘
+
+✅ NO necesitas instalar Python
+✅ NO necesitas instalar nada
+✅ Solo ejecuta el programa
+
+→ Doble clic en: GestionPolizas.exe
+  O
+→ Doble clic en: GestionPolizasPortable.exe
+
+Para instrucciones completas:
+→ Lee: INSTRUCCIONES_USUARIO.txt
+
+
+═══════════════════════════════════════════════════════════════
+                    ARCHIVOS DEL PROYECTO
+═══════════════════════════════════════════════════════════════
+
+📂 ARCHIVOS PRINCIPALES:
+  main.py                    → Código principal de la aplicación
+  database.py                → Gestor de base de datos
+  requirements.txt           → Lista de dependencias
+
+📜 SCRIPTS DE AUTOMATIZACIÓN:
+  INSTALAR.bat               → Instala dependencias (primera vez)
+  INSTALAR_PYINSTALLER.bat   → ⭐ Instala PyInstaller (NUEVO - IMPORTANTE)
+  EJECUTAR.bat               → Ejecuta la aplicación
+  CREAR_EXE_SIMPLE.bat       → 🟢 Crea .exe (RECOMENDADO - robusto)
+  CREAR_EJECUTABLE.bat       → 🔵 Crea .exe único (~100MB)
+  CREAR_EJECUTABLE_AVANZADO.bat → 🟣 Crea versión portable
+
+📖 DOCUMENTACIÓN:
+  README.md                  → Documentación completa
+  SOLUCION_PROBLEMAS_EXE.txt → ⚠️ Soluciones si .exe no se crea
+  COMO_CREAR_EXE.txt         → Guía rápida crear ejecutable
+  GUIA_CREAR_EJECUTABLE.txt  → Guía detallada crear ejecutable
+  INSTRUCCIONES_USUARIO.txt  → Manual para usuario final
+  LEEME_PRIMERO.txt          → Este archivo
+
+
+═══════════════════════════════════════════════════════════════
+                    FLUJO DE TRABAJO TÍPICO
+═══════════════════════════════════════════════════════════════
+
+DESARROLLADOR:
+1. INSTALAR_PYINSTALLER.bat (solo una vez) ⭐ NUEVO
+3. EJECUTAR.bat (para probar)
+4. Hacer cambios al código si es necesario
+5. CREAR_EJECUTABLE.bat (cuando esté listo)
+6. CREAR_EJECUTABLE.bat (cuando esté listo)
+5. Distribuir el .exe de la carpeta "dist"
+
+USUARIO FINAL:
+1. Recibir el .exe o carpeta portable
+2. Doble clic en el ejecutable
+3. ¡Usar la aplicación!
+
+
+═══════════════════════════════════════════════════════════════
+                    PREGUNTAS FRECUENTES
+═══════════════════════════════════════════════════════════════
+
+P: ¿Cuál es la diferencia entre las opciones A y B?
+R: Opción A = 1 archivo grande, fácil de enviar
+   Opción B = Carpeta con archivos, inicia más rápido
+
+P: ¿El .exe requiere instalar Python?
+R: NO. El .exe incluye TODO lo necesario.
+
+P: ¿Funciona sin Internet?
+R: SÍ. Es completamente offline.
+
+P: ¿Dónde se guardan los datos?
+R: En un archivo "seguros.db" en la misma carpeta.
+
+P: ¿Cómo hago respaldo?
+R: Copia el archivo "seguros.db" a otro lugar.
+
+
+═══════════════════════════════════════════════════════════════
+                    CONTACTO Y SOPORTE
+═══════════════════════════════════════════════════════════════
+
+Para más información, consulta los archivos de documentación
+incluidos en este proyecto.
+
+
+                  ⭐ ¡Listo para comenzar! ⭐

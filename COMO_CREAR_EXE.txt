@@ -1,0 +1,177 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║       INSTRUCCIONES RÁPIDAS - CREAR EJECUTABLE .EXE          ║
+║         (SIN NECESIDAD DE INSTALAR NADA AL USARLO)          ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────┐
+│  PASO 1: PREPARAR TU PC (SOLO UNA VEZ)                      │
+└──────────────────────────────────────────────────────────────┘
+
+1. Asegúrate de tener Python instalado en TU PC
+   (Solo lo necesitas TÚ para crear el .exe)
+
+2. Doble clic en: INSTALAR.bat
+   → Instala las dependencias necesarias
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  PASO 2: CREAR EL EJECUTABLE                                │
+└──────────────────────────────────────────────────────────────┘
+
+Elige una opción:
+
+┌─────────────────────────────────────┐
+│ OPCIÓN A: ARCHIVO ÚNICO             │
+│ (Más fácil de enviar)               │
+└─────────────────────────────────────┘
+→ Doble clic en: CREAR_EJECUTABLE.bat
+→ Espera 5-10 minutos
+→ Resultado: dist\GestionPolizas.exe
+→ Peso: 50-100 MB
+
+Ventajas:
+✓ Solo un archivo
+✓ Fácil de enviar por email
+✓ Simple de distribuir
+
+Desventajas:
+✗ Inicia un poco más lento
+✗ Archivo grande
+
+┌─────────────────────────────────────┐
+│ OPCIÓN B: VERSIÓN PORTABLE          │
+│ (Más profesional)                   │
+└─────────────────────────────────────┘
+→ Doble clic en: CREAR_EJECUTABLE_AVANZADO.bat
+→ Espera 5-10 minutos
+→ Resultado: dist\GestionPolizas_Portable\
+→ Peso total: Similar
+
+Ventajas:
+✓ Inicia más rápido
+✓ Mejor rendimiento
+✓ Más fácil de actualizar
+
+Desventajas:
+✗ Son varios archivos (debes comprimirlos)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  PASO 3: DISTRIBUIR EL EJECUTABLE                           │
+└──────────────────────────────────────────────────────────────┘
+
+OPCIÓN A (Archivo único):
+1. Ve a la carpeta "dist"
+2. Copia el archivo "GestionPolizas.exe"
+3. Envíalo por:
+   • Email (si permite archivos grandes)
+   • USB
+   • OneDrive / Google Drive / Dropbox
+   • WeTransfer
+
+OPCIÓN B (Portable):
+1. Ve a la carpeta "dist"
+2. Comprime la carpeta "GestionPolizas_Portable" en ZIP
+3. Distribuye el archivo ZIP
+4. El usuario descomprime y ejecuta
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  EL USUARIO FINAL (quien recibe el .exe)                    │
+└──────────────────────────────────────────────────────────────┘
+
+✓ NO necesita instalar Python
+✓ NO necesita instalar librerías
+✓ NO necesita permisos de administrador
+✓ NO necesita conexión a Internet
+
+Solo debe:
+1. Recibir el archivo o carpeta
+2. Hacer doble clic en el .exe
+3. ¡La aplicación funciona inmediatamente!
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  REQUISITOS DEL SISTEMA (para el usuario final)             │
+└──────────────────────────────────────────────────────────────┘
+
+• Windows 7 o superior (32 o 64 bits)
+• 100 MB de espacio libre
+• 512 MB de RAM (mínimo)
+• ¡Y nada más!
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  PREGUNTAS FRECUENTES                                        │
+└──────────────────────────────────────────────────────────────┘
+
+P: ¿Por qué el .exe pesa tanto (50-100 MB)?
+R: Incluye Python completo y todas las librerías necesarias
+   para que funcione sin instalar nada.
+
+P: ¿El .exe funcionará en PCs sin Python?
+R: ¡SÍ! Ese es el objetivo. Es completamente independiente.
+
+P: ¿Puedo vender o distribuir el .exe comercialmente?
+R: Sí, el código es libre pero verifica las licencias de las
+   librerías incluidas (CustomTkinter, OpenPyXL).
+
+P: ¿El antivirus puede bloquearlo?
+R: Algunos antivirus marcan los .exe de PyInstaller como
+   sospechosos. Es un falso positivo. Puedes firmar el .exe
+   digitalmente para evitarlo.
+
+P: ¿Funciona en Windows 11?
+R: ¡Sí! Funciona en Windows 7, 8, 10 y 11.
+
+P: ¿Puedo crear el .exe en Mac o Linux?
+R: No. Debes crearlo en Windows para que funcione en Windows.
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  SOLUCIÓN DE PROBLEMAS AL CREAR EL .EXE                     │
+└──────────────────────────────────────────────────────────────┘
+
+ERROR: "Python no está instalado"
+→ Instala Python en tu PC de desarrollo
+→ Descarga: https://python.org/downloads
+
+ERROR: "pip no se reconoce"
+→ Reinstala Python marcando "Add Python to PATH"
+
+ERROR: "No module named 'customtkinter'"
+→ Ejecuta INSTALAR.bat primero
+
+ERROR: "Access denied" o "Permiso denegado"
+→ Ejecuta como administrador
+→ O desactiva temporalmente el antivirus
+
+ERROR: El proceso se queda pegado
+→ Ten paciencia, puede tardar 10 minutos
+→ No cierres la ventana
+
+EL .EXE NO INICIA:
+→ Verifica que no falten archivos DLL
+→ Intenta ejecutar como administrador
+→ Verifica el antivirus
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  RECOMENDACIÓN FINAL                                         │
+└──────────────────────────────────────────────────────────────┘
+
+Para la mayoría de usuarios: OPCIÓN B (Portable)
+→ Mejor rendimiento
+→ Más profesional
+→ Solo un ZIP para distribuir
+
+Para envíos rápidos: OPCIÓN A (Archivo único)
+→ Un solo archivo
+→ Más simple
+
+
+═══════════════════════════════════════════════════════════════
+            ¿Necesitas ayuda? Lee GUIA_CREAR_EJECUTABLE.txt
+═══════════════════════════════════════════════════════════════

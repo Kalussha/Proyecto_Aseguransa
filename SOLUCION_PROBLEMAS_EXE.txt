@@ -1,0 +1,224 @@
+═══════════════════════════════════════════════════════════════
+    ⚡ GUÍA RÁPIDA - CREAR EJECUTABLE .EXE ⚡
+═══════════════════════════════════════════════════════════════
+
+SI TIENES PROBLEMAS PARA CREAR EL .EXE, USA ESTA GUÍA:
+
+
+┌───────────────────────────────────────────────────────────┐
+│  PASO 1: ELEGIR EL SCRIPT CORRECTO                       │
+└───────────────────────────────────────────────────────────┘
+
+Hay 3 opciones disponibles:
+
+🟢 OPCIÓN 1: CREAR_EXE_SIMPLE.bat (RECOMENDADO)
+   → Script más simple y robusto
+   → Mejor detección de errores
+   → Muestra progreso paso a paso
+   → ¡USA ESTE SI LOS OTROS NO FUNCIONAN!
+
+🔵 OPCIÓN 2: CREAR_EJECUTABLE.bat
+   → Crea archivo único .exe
+   → Fácil de distribuir
+   → Un solo archivo de ~100MB
+
+🟣 OPCIÓN 3: CREAR_EJECUTABLE_AVANZADO.bat
+   → Crea carpeta portable
+   → Mejor rendimiento
+   → Inicia más rápido
+
+
+┌───────────────────────────────────────────────────────────┐
+│  PASO 2: ANTES DE EJECUTAR - VERIFICAR REQUISITOS        │
+└───────────────────────────────────────────────────────────┘
+
+✓ Python 3.8 o superior instalado
+✓ Python agregado al PATH (puedes verificar escribiendo "python --version" en CMD)
+✓ Dependencias instaladas (ejecuta INSTALAR.bat primero)
+✓ PyInstaller instalado (ejecuta INSTALAR_PYINSTALLER.bat) ⭐ IMPORTANTE
+✓ Al menos 500 MB de espacio libre en disco
+✓ Permisos de escritura en la carpeta
+
+
+┌───────────────────────────────────────────────────────────┐
+│  PASO 3: EJECUTAR EL SCRIPT                              │
+└───────────────────────────────────────────────────────────┘
+⭐ ANTES DE CREAR EL .EXE, EJECUTA PRIMERO:
+   → INSTALAR_PYINSTALLER.bat (nuevo archivo)
+   → Esto asegura que PyInstaller esté instalado correctamente
+
+
+1. Clic derecho en el archivo .bat que elijas
+2. Selecciona "Ejecutar como administrador" (IMPORTANTE)
+3. Espera pacientemente (puede tardar 5-10 minutos)
+4. NO cierres la ventana hasta que termine
+
+
+┌───────────────────────────────────────────────────────────┐
+│  PASO 4: VERIFICAR QUE SE CREÓ CORRECTAMENTE             │
+└───────────────────────────────────────────────────────────┘
+
+Al finalizar, deberías tener:
+
+OPCIÓN 1 o 2:
+→ Carpeta "dist" con archivo "GestionPolizas.exe"
+
+OPCIÓN 3:
+→ Carpeta "dist\GestionPolizasPortable\" con el ejecutable
+
+
+┌───────────────────────────────────────────────────────────┐
+│  SOLUCIÓN DE PROBLEMAS COMUNES                           │
+└───────────────────────────────────────────────────────────┘
+
+PROBLEMA: "pyinstaller no se reconoce como comando"
+SOLUCIÓN (PRIORIDAD 1):
+→ PRIMERO ejecuta: INSTALAR_PYINSTALLER.bat
+→ Esto instalará PyInstaller correctamente
+→ Luego ejecuta el script de creación de .exe
+
+SOLUCIÓN ALTERNATIVA:
+→ Los scripts ya están actualizados para usar: python -m PyInstaller
+→ Esto debería funcionar automáticamente
+→ Si aún falla, ejecuta manualmente:
+  python -m pip install pyinstaller
+
+PROBLEMA: "Python no se reconoce como comando"
+SOLUCIÓN:
+→ Abre CMD y escribe: python --version
+→ Si da error, reinstala Python desde python.org
+→ Durante instalación, marca "Add Python to PATH"
+→ Reinicia la computadora después de instalar
+
+PROBLEMA: "pip no se reconoce"
+SOLUCIÓN:
+→ Reinstala Python marcando "Add Python to PATH"
+→ O usa: py -m pip install pyinstaller
+
+PROBLEMA: "No module named 'customtkinter'"
+SOLUCIÓN:
+→ Ejecuta primero: INSTALAR.bat
+→ O manualmente: pip install customtkinter openpyxl
+
+PROBLEMA: El script se queda congelado
+SOLUCIÓN:
+→ Ten paciencia, puede tardar 10 minutos
+→ NO cierres la ventana
+→ Verifica que tu antivirus no esté bloqueando
+
+PROBLEMA: "Access denied" o "Permission denied"
+SOLUCIÓN:
+→ Clic derecho en el .bat → Ejecutar como administrador
+→ Desactiva temporalmente el antivirus
+→ Cierra VS Code u otros editores que tengan archivos abiertos
+
+PROBLEMA: El .exe no se crea (sin errores visibles)
+SOLUCIÓN:
+→ Verifica espacio en disco (necesitas 500+ MB libres)
+→ Ejecuta: pip install --upgrade pyinstaller
+→ Intenta con CREAR_EXE_SIMPLE.bat
+→ Revisa que main.py y database.py existan
+
+PROBLEMA: Se crea el .exe pero no funciona
+SOLUCIÓN:
+→ Puede ser falso positivo del antivirus
+→ Agrega la carpeta "dist" a excepciones del antivirus
+→ Ejecuta el .exe como administrador
+→ Verifica que no falten archivos DLL
+
+PROBLEMA: Error "Failed to execute script"
+SOLUCIÓN:
+→ Hay un error en el código Python
+→ Ejecuta primero: python main.py
+→ Corrige los errores que aparezcan
+→ Luego vuelve a crear el .exe
+
+PROBLEMA: "UnicodeDecodeError" durante la creación
+SOLUCIÓN:
+→ Es por caracteres especiales en rutas
+→ Mueve la carpeta del proyecto a: C:\Asegurnasa
+→ Evita rutas con espacios, acentos o caracteres especiales
+
+
+┌───────────────────────────────────────────────────────────┐
+│  MÉTODO ALTERNATIVO (SI NADA FUNCIONA)                   │
+└───────────────────────────────────────────────────────────┘
+
+1. Abre PowerShell o CMD como Administrador
+
+2. Navega a la carpeta del proyecto:
+   cd "c:\Users\Joshua Rafael\OneDrive\Escritorio\Asegurnasa"
+
+3. Ejecuta manualmente:
+   pip install pyinstaller
+   pyinstaller --onefile --windowed --name=GestionPolizas main.py
+
+4. El .exe estará en: dist\GestionPolizas.exe
+
+
+┌───────────────────────────────────────────────────────────┐
+│  COMANDOS ÚTILES PARA DIAGNÓSTICO                        │
+└───────────────────────────────────────────────────────────┘
+
+Verificar Python:
+→ python --version
+
+Verificar pip:
+→ pip --version
+
+Verificar PyInstaller:
+→ pyinstaller --version
+
+Verificar dependencias instaladas:
+→ pip list
+
+Limpiar instalación de PyInstaller:
+→ pip uninstall pyinstaller
+→ pip install pyinstaller
+
+Probar la aplicación antes de crear .exe:
+→ python main.py
+
+
+┌───────────────────────────────────────────────────────────┐
+│  CONSEJOS IMPORTANTES                                     │
+└───────────────────────────────────────────────────────────┘
+
+✓ SIEMPRE ejecuta como Administrador
+✓ Ten paciencia, el proceso es lento
+✓ Desactiva el antivirus temporalmente
+✓ Asegúrate de tener espacio en disco
+✓ Cierra otros programas que usen Python
+✓ Si falla, lee TODOS los mensajes de error
+✓ Usa CREAR_EXE_SIMPLE.bat si tienes dudas
+
+
+┌───────────────────────────────────────────────────────────┐
+│  DESPUÉS DE CREAR EL .EXE                                │
+└───────────────────────────────────────────────────────────┘
+
+1. Ve a la carpeta "dist"
+2. Prueba el .exe localmente (doble clic)
+3. Si funciona, ya puedes distribuirlo
+4. El .exe NO requiere Python en otras PCs
+5. Copia el .exe solo (no necesitas otras carpetas)
+
+
+┌───────────────────────────────────────────────────────────┐
+│  DISTRIBUCIÓN DEL EJECUTABLE                             │
+└───────────────────────────────────────────────────────────┘
+
+Para OPCIÓN 1 / 2 (archivo único):
+→ Copia "dist\GestionPolizas.exe"
+→ Envíalo como quieras (email, USB, nube)
+→ El receptor solo hace doble clic
+
+Para OPCIÓN 3 (portable):
+→ Comprime la carpeta "dist\GestionPolizasPortable"
+→ Envía el ZIP
+→ El receptor descomprime y ejecuta
+
+
+═══════════════════════════════════════════════════════════════
+            ¿SIGUE SIN FUNCIONAR? CONTACTA SOPORTE
+═══════════════════════════════════════════════════════════════

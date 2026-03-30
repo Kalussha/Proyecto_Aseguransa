@@ -1,0 +1,215 @@
+╔══════════════════════════════════════════════════════════════╗
+║                                                              ║
+║           SISTEMA DE GESTIÓN DE PÓLIZAS DE SEGUROS          ║
+║                    INSTRUCCIONES DE USO                      ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
+
+Si recibiste el archivo EJECUTABLE (.exe):
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  VERSIÓN 1: ARCHIVO ÚNICO (GestionPolizas.exe)              │
+└──────────────────────────────────────────────────────────────┘
+
+1. Guarda el archivo .exe donde quieras
+   (Escritorio, Documentos, USB, etc.)
+
+2. Doble clic en "GestionPolizas.exe"
+
+3. ¡LISTO! La aplicación se abre instantáneamente
+
+4. La primera vez creará la base de datos automáticamente
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  VERSIÓN 2: PORTABLE (Carpeta con varios archivos)          │
+└──────────────────────────────────────────────────────────────┘
+
+1. Descomprime el archivo ZIP que recibiste
+
+2. Abre la carpeta descomprimida
+
+3. Doble clic en "INICIAR_APLICACION.bat"
+   O doble clic en "GestionPolizasPortable.exe"
+
+4. ¡LISTO! La aplicación se abre
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  ¿QUÉ NECESITO INSTALAR?                                    │
+└──────────────────────────────────────────────────────────────┘
+
+¡NADA! 
+
+✓ NO necesitas instalar Python
+✓ NO necesitas instalar librerías
+✓ NO necesitas permisos de administrador
+✓ NO necesitas conexión a Internet
+
+Solo haz doble clic y funciona.
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  USO DE LA APLICACIÓN                                        │
+└──────────────────────────────────────────────────────────────┘
+
+CREAR NUEVA PÓLIZA:
+1. Clic en botón verde "+ Nueva Póliza"
+2. Llena los campos del formulario
+3. Clic en "💾 Guardar"
+
+BUSCAR PÓLIZA:
+1. Escribe en la barra de búsqueda superior
+2. Busca por CUALQUIER dato:
+   • Nombre, Domicilio (calle, colonia, municipio, etc.)
+   • RFC, Email
+   • Compañía aseguradora, Número de Póliza, Endoso
+   • Marca, Modelo, Año, Placas, VIN, Motor
+   • Y cualquier otro campo
+3. Los resultados aparecen automáticamente mientras escribes
+
+EDITAR PÓLIZA:
+1. Clic en una póliza de la lista lateral
+2. Modifica los campos necesarios
+3. Clic en "💾 Guardar"
+
+ELIMINAR PÓLIZA:
+1. Selecciona una póliza de la lista
+2. Clic en "🗑️ Eliminar"
+3. Confirma la eliminación
+
+EXPORTAR A EXCEL:
+1. Selecciona una póliza de la lista
+2. Clic en "📊 Exportar a Excel"
+3. Elige ubicación y nombre del archivo
+4. ¡Listo! Tienes el Excel con todos los datos
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  CARACTERÍSTICAS ESPECIALES                                  │
+└──────────────────────────────────────────────────────────────┘
+
+🔴 ALERTAS DE VENCIMIENTO:
+Las pólizas con vencimientos próximos (menos de 15 días)
+se muestran en ROJO en la lista.
+
+Esto incluye:
+• Fecha de vencimiento de pago < 15 días
+• Vigencia de póliza < 15 días
+
+📊 BASE DE DATOS:
+Todos tus datos se guardan en un archivo llamado
+"seguros.db" que se crea automáticamente en la misma
+carpeta del programa.
+
+💾 RESPALDO:
+Para hacer respaldo de tus datos, simplemente copia
+el archivo "seguros.db" a otro lugar seguro
+(USB, nube, etc.)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  CAMPOS DEL FORMULARIO                                       │
+└──────────────────────────────────────────────────────────────┘
+
+INFORMACIÓN PERSONAL:
+• Nombre completo (OBLIGATORIO)
+• Domicilio completo
+• RFC (debe tener 12 o 13 caracteres)
+• Email
+
+DATOS DE PÓLIZA:
+• Compañía aseguradora
+• Número de Póliza
+• Endoso
+• Inciso
+• Vigencia (inicio y fin) - Formato: DD-MM-AAAA
+• Forma de pago (lista desplegable)
+• Fecha vencimiento pago - Formato: DD-MM-AAAA
+
+DATOS DEL VEHÍCULO:
+• Marca, Modelo, Tipo/Versión
+• Año
+• Serie/VIN
+• Motor
+• Placas
+• Prima Total (en pesos)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  FORMATO DE FECHAS                                           │
+└──────────────────────────────────────────────────────────────┘
+
+Todas las fechas deben ingresarse en formato: DD-MM-AAAA
+
+Ejemplos:
+• 2026-03-09  (9 de marzo de 2026)
+• 2026-12-31  (31 de diciembre de 2026)
+• 2027-01-15  (15 de enero de 2027)
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  SOLUCIÓN DE PROBLEMAS                                       │
+└──────────────────────────────────────────────────────────────┘
+
+PROBLEMA: El antivirus bloquea el .exe
+SOLUCIÓN: Es un falso positivo. Agrega el archivo a las
+          excepciones del antivirus.
+
+PROBLEMA: No inicia la aplicación
+SOLUCIÓN: 
+• Ejecuta como administrador (clic derecho → Ejecutar como admin)
+• Verifica que tengas Windows 7 o superior
+• Asegúrate de que no falten archivos (si es versión portable)
+
+PROBLEMA: "Error al abrir la base de datos"
+SOLUCIÓN: Verifica que tengas permisos de escritura en la
+          carpeta donde está el programa.
+
+PROBLEMA: No se exporta a Excel
+SOLUCIÓN: Asegúrate de cerrar el archivo Excel si ya está
+          abierto antes de exportar.
+
+PROBLEMA: Se cierra solo
+SOLUCIÓN: Puede ser el antivirus. Desactívalo temporalmente
+          para probar.
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  REQUISITOS DEL SISTEMA                                      │
+└──────────────────────────────────────────────────────────────┘
+
+• Sistema Operativo: Windows 7, 8, 10 u 11
+• Espacio en disco: 100 MB libres
+• RAM: 512 MB mínimo (recomendado 1 GB)
+• Pantalla: Resolución mínima 1280x720
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  CONSEJOS DE USO                                             │
+└──────────────────────────────────────────────────────────────┘
+
+✓ Haz respaldos periódicos del archivo "seguros.db"
+
+✓ Usa fechas consistentes para aprovechar las alertas
+  de vencimiento
+
+✓ Llena el RFC completo para mejores búsquedas
+
+✓ Usa la búsqueda para encontrar rápidamente pólizas
+
+✓ Exporta a Excel para crear reportes personalizados
+
+
+┌──────────────────────────────────────────────────────────────┐
+│  CONTACTO Y SOPORTE                                          │
+└──────────────────────────────────────────────────────────────┘
+
+Para soporte técnico o reportar problemas, contacta
+al administrador del sistema.
+
+
+═══════════════════════════════════════════════════════════════
+              Desarrollado para Asegurnasa
+═══════════════════════════════════════════════════════════════

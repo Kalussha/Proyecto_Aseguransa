@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+build/
+dist/
+*.spec
+*.db
+*.sqlite3
+*.log
+.env
+api_resp.txt
+error.txt
+config.json
