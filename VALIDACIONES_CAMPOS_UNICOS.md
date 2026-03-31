@@ -1,4 +1,4 @@
-# 🔒 Validación de Campos Únicos - ASEGURNASA
+# 🔒 Validación de Campos Únicos - ASEGURANZA
 
 ## 📋 Campos Únicos Implementados
 
@@ -457,7 +457,7 @@ except ValueError as e:
 
 Si tiene preguntas sobre las validaciones de campos únicos, consulte este documento o contacte al administrador del sistema.
 
-**Sistema:** ASEGURNASA v2.1
+**Sistema:** ASEGURANZA v2.1
 **Módulo:** database.py - Validación de Campos Únicos
 **Última actualización:** Marzo 2026
 

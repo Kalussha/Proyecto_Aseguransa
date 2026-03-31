@@ -50,7 +50,7 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
         
         # Configuración de ventana
         titulo = "Cambio de Contraseña Obligatorio" if obligatorio else "Cambiar Contraseña"
-        self.title(f"ASEGURANSA - {titulo}")
+        self.title(f"ASEGURANZA - {titulo}")
         self.geometry("500x600")
         self.resizable(False, False)
         
@@ -306,7 +306,7 @@ class GestionUsuariosWindow(ctk.CTkToplevel):
         self.db = db
         
         # Configuración de ventana
-        self.title("ASEGURNASA - Gestión de Usuarios")
+        self.title("ASEGURANZA - Gestión de Usuarios")
         self.geometry("900x700")
         
         # Centrar ventana
@@ -658,7 +658,7 @@ class LoginWindow(ctk.CTkToplevel):
         self.usuario_autenticado = None
         
         # Configuración de ventana
-        self.title("ASEGURNASA - Inicio de Sesión")
+        self.title("ASEGURANZA - Inicio de Sesión")
         self.geometry("450x550")
         self.resizable(False, False)
         
@@ -689,7 +689,7 @@ class LoginWindow(ctk.CTkToplevel):
         
         titulo = ctk.CTkLabel(
             titulo_frame,
-            text="🔐 ASEGURNASA",
+            text="🔐 ASEGURANZA",
             font=ctk.CTkFont(size=28, weight="bold"),
             text_color="white"
         )
@@ -838,6 +838,113 @@ class LoginWindow(ctk.CTkToplevel):
             self.password_entry.focus()
 
 
+
+class AgendaTelefonicaWindow(ctk.CTkToplevel):
+    """Ventana de Agenda Telefónica."""
+    
+    def __init__(self, parent, db):
+        super().__init__(parent)
+        self.db = db
+        
+        self.title("ASEGURANZA - Agenda Telefónica")
+        self.geometry("900x700")
+        self.minsize(800, 600)
+        
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.winfo_screenheight() // 2) - (height // 2)
+        self.geometry(f'{width}x{height}+{x}+{y}')
+        
+        self.crear_interfaz()
+        self.cargar_contactos()
+        
+    def crear_interfaz(self):
+        main_frame = ctk.CTkFrame(self, fg_color=COLORES["fondo_claro"])
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        header_frame = ctk.CTkFrame(main_frame, fg_color=COLORES["primario"])
+        header_frame.pack(fill="x", pady=(0, 20))
+        
+        titulo = ctk.CTkLabel(
+            header_frame,
+            text="📒 AGENDA TELEFÓNICA",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            text_color="white"
+        )
+        titulo.pack(pady=15)
+        
+        self.tabview = ctk.CTkTabview(main_frame, fg_color="transparent")
+        self.tabview.pack(fill="both", expand=True)
+        
+        self.tab_todos = self.tabview.add("Todos")
+        self.tab_normales = self.tabview.add("Clientes Normales")
+        self.tab_companias = self.tabview.add("Compañías")
+        
+        # Scrolables
+        self.scroll_todos = ctk.CTkScrollableFrame(self.tab_todos, fg_color="transparent")
+        self.scroll_todos.pack(fill="both", expand=True)
+        
+        self.scroll_normales = ctk.CTkScrollableFrame(self.tab_normales, fg_color="transparent")
+        self.scroll_normales.pack(fill="both", expand=True)
+        
+        self.scroll_companias = ctk.CTkScrollableFrame(self.tab_companias, fg_color="transparent")
+        self.scroll_companias.pack(fill="both", expand=True)
+        
+    def cargar_contactos(self):
+        polizas = self.db.obtener_todas_polizas()
+        # Group by phone to avoid duplicates if same client has multiple policies
+        contactos = {}
+        for p in polizas:
+            tel = p.get('telefono', '').strip()
+            if not tel:
+                continue
+            nombre = p.get('nombre_completo', '').strip()
+            email = p.get('email', '').strip()
+            tipo = p.get('tipo_cliente', 'Cliente Normal')
+            
+            key = (nombre.lower(), tel)
+            if key not in contactos:
+                contactos[key] = {
+                    'nombre': nombre,
+                    'telefono': tel,
+                    'email': email,
+                    'tipo': tipo
+                }
+                
+        contactos_lista = sorted(list(contactos.values()), key=lambda x: x['nombre'].lower())
+        
+        for p in contactos_lista:
+            self.crear_tarjeta(p, self.scroll_todos)
+            if p['tipo'] == 'Compañía':
+                self.crear_tarjeta(p, self.scroll_companias)
+            else:
+                self.crear_tarjeta(p, self.scroll_normales)
+                
+    def crear_tarjeta(self, contacto, parent_frame):
+        card = ctk.CTkFrame(parent_frame, fg_color=COLORES["fondo"], border_width=1, border_color=COLORES["borde"])
+        card.pack(fill="x", pady=5, padx=5)
+        
+        left_frame = ctk.CTkFrame(card, fg_color="transparent")
+        left_frame.pack(side="left", fill="both", expand=True, padx=15, pady=10)
+        
+        nombre_lbl = ctk.CTkLabel(left_frame, text=f"👤 {contacto['nombre']}", font=ctk.CTkFont(size=14, weight="bold"))
+        nombre_lbl.pack(anchor="w")
+        
+        if contacto['tipo'] == 'Compañía':
+            badge = ctk.CTkLabel(left_frame, text="🏢 Compañía", font=ctk.CTkFont(size=10), text_color="white", fg_color=COLORES["info"], corner_radius=4, padx=6)
+            badge.pack(anchor="w", pady=(2, 0))
+        
+        right_frame = ctk.CTkFrame(card, fg_color="transparent")
+        right_frame.pack(side="right", padx=15, pady=10)
+        
+        ctk.CTkLabel(right_frame, text=f"📞 {contacto['telefono']}", font=ctk.CTkFont(size=13, weight="bold"), text_color=COLORES["exito"]).pack(anchor="e")
+        if contacto['email']:
+            ctk.CTkLabel(right_frame, text=f"✉️ {contacto['email']}", font=ctk.CTkFont(size=11), text_color=COLORES["texto_secundario"]).pack(anchor="e")
+
+
+
 class SeguroApp(ctk.CTk):
     """Aplicación principal de gestión de pólizas."""
     
@@ -848,7 +955,7 @@ class SeguroApp(ctk.CTk):
         self.usuario_autenticado = usuario_autenticado
         
         # Configuración de la ventana
-        self.title("ASEGURNASA - Sistema de Gestión de Pólizas")
+        self.title("ASEGURANZA - Sistema de Gestión de Pólizas")
         self.geometry("1450x850")
         self.minsize(1200, 700)
         
@@ -907,7 +1014,7 @@ class SeguroApp(ctk.CTk):
         if not alertas:
             return
             
-        mensaje = "Las siguientes pólizas están próximas a encer:\n\n"
+        mensaje = "Las siguientes pólizas están próximas a vencer:\n\n"
         for alerta in alertas:
             nombre = alerta.get('nombre_completo', 'Sin nombre')
             pol = alerta.get('numero_poliza') or 'Sin póliza'
@@ -969,7 +1076,7 @@ class SeguroApp(ctk.CTk):
         
         titulo = ctk.CTkLabel(
             texto_frame,
-            text="ASEGURNASA",
+            text="ASEGURANZA",
             font=ctk.CTkFont(size=28, weight="bold"),
             text_color="white"
         )
@@ -1025,7 +1132,19 @@ class SeguroApp(ctk.CTk):
                     fg_color=COLORES["exito"],
                     hover_color=COLORES["exito_hover"]
                 )
-                gestion_usuarios_btn.pack(side="left")
+                gestion_usuarios_btn.pack(side="left", padx=(0, 5))
+
+            agenda_btn = ctk.CTkButton(
+                botones_frame,
+                text="📒 Agenda Telefónica",
+                command=self.abrir_agenda,
+                width=150,
+                height=28,
+                font=ctk.CTkFont(size=11),
+                fg_color=COLORES["advertencia"],
+                hover_color="#d97706"
+            )
+            agenda_btn.pack(side="left")
 
             # Botón Salir/Cerrar Sesión
             salir_btn = ctk.CTkButton(
@@ -1073,7 +1192,7 @@ class SeguroApp(ctk.CTk):
         # Versión del sistema
         version_label = ctk.CTkLabel(
             footer_frame,
-            text="Versión 1.0.0 | © 2026 ASEGURNASA | Todos los derechos reservados",
+            text="Versión 1.0.0 | © 2026 ASEGURANZA | Todos los derechos reservados",
             font=ctk.CTkFont(size=11),
             text_color=COLORES["texto_secundario"]
         )
@@ -1234,18 +1353,34 @@ class SeguroApp(ctk.CTk):
         # BLOQUE 1: Información Personal
         self.crear_seccion("👤 INFORMACIÓN PERSONAL", self.form_frame, COLORES["info"])
         
-        # Crear campos en 2 columnas para mejor uso del espacio
+        # Crear campos en 3 columnas para mejor uso del espacio
         row1 = ctk.CTkFrame(self.form_frame, fg_color="transparent")
         row1.pack(fill="x", pady=5)
         
         col1 = ctk.CTkFrame(row1, fg_color="transparent")
         col1.pack(side="left", fill="both", expand=True, padx=(0, 10))
         
+        col_tipo = ctk.CTkFrame(row1, fg_color="transparent")
+        col_tipo.pack(side="left", fill="both", expand=True, padx=(0, 10))
+        
         col2 = ctk.CTkFrame(row1, fg_color="transparent")
         col2.pack(side="left", fill="both", expand=True)
         
         self.nombre_entry = self.crear_campo("Nombre Completo *", col1, True)
-        self.rfc_entry = self.crear_campo("RFC (12-13 caracteres)", col2, True)
+        
+        self.crear_label("Tipo de Cliente", col_tipo)
+        self.tipo_cliente_combo = ctk.CTkComboBox(
+            col_tipo,
+            values=["Cliente Normal", "Compañía"],
+            height=40,
+            font=ctk.CTkFont(size=13),
+            border_width=2,
+            border_color=COLORES["borde"]
+        )
+        self.tipo_cliente_combo.pack(fill="x", pady=(0, 10))
+        self.tipo_cliente_combo.set("Cliente Normal")
+        
+        self.rfc_entry = self.crear_campo("RFC (10 caracteres)", col2, True)
         
         # Fila 2
         row2 = ctk.CTkFrame(self.form_frame, fg_color="transparent")
@@ -2048,6 +2183,7 @@ class SeguroApp(ctk.CTk):
         # Llenar formulario
         self.nombre_entry.delete(0, 'end')
         self.nombre_entry.insert(0, poliza.get('nombre_completo', ''))
+        self.tipo_cliente_combo.set(poliza.get('tipo_cliente', 'Cliente Normal'))
         
         self.calle_entry.delete(0, 'end')
         self.calle_entry.insert(0, poliza.get('calle', ''))
@@ -2175,6 +2311,7 @@ class SeguroApp(ctk.CTk):
     def limpiar_formulario(self):
         """Limpia todos los campos del formulario."""
         self.nombre_entry.delete(0, 'end')
+        self.tipo_cliente_combo.set("Cliente Normal")
         self.calle_entry.delete(0, 'end')
         self.numero_entry.delete(0, 'end')
         self.cp_entry.delete(0, 'end')
@@ -2215,8 +2352,8 @@ class SeguroApp(ctk.CTk):
         self.comentarios_text.delete("1.0", "end")
     
     def validar_rfc(self, rfc):
-        """Valida que el RFC tenga 12 o 13 caracteres."""
-        return len(rfc) in [12, 13] if rfc else True
+        """Valida que el RFC tenga 10 caracteres."""
+        return len(rfc) == 10 if rfc else True
     
     def guardar_poliza(self):
         """Guarda o actualiza una póliza."""
@@ -2228,7 +2365,7 @@ class SeguroApp(ctk.CTk):
         # Validar RFC
         rfc = self.rfc_entry.get()
         if rfc and not self.validar_rfc(rfc):
-            messagebox.showerror("Error", "El RFC debe tener 12 o 13 caracteres")
+            messagebox.showerror("Error", "El RFC debe tener exactamente 10 caracteres")
             return
         
         # Validar prima total
@@ -2493,6 +2630,11 @@ class SeguroApp(ctk.CTk):
                 "Acceso Denegado",
                 "Solo el administrador puede gestionar usuarios"
             )
+    def abrir_agenda(self):
+        """Abre la ventana de Agenda Telefónica."""
+        AgendaTelefonicaWindow(self, self.db)
+        
+
 
     def salir_programa(self):
         """Pide confirmación para salir y cierra la aplicación."""

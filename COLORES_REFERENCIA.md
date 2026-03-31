@@ -1,4 +1,4 @@
-# 🎨 PALETA DE COLORES - ASEGURNASA
+# 🎨 PALETA DE COLORES - ASEGURANZA
 
 ## 📋 COLORES CORPORATIVOS
 
@@ -385,5 +385,5 @@ Este archivo puede servir como guía para:
 - Crear versiones web/móvil
 
 **Fecha:** Enero 2024
-**Sistema:** ASEGURNASA
+**Sistema:** ASEGURANZA
 **Framework:** CustomTkinter

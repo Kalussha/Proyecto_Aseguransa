@@ -1,5 +1,5 @@
 """
-Generador de Cotización Profesional para Proyecto ASEGURNASA
+Generador de Cotización Profesional para Proyecto ASEGURANZA
 """
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -30,7 +30,7 @@ ws['A1'].alignment = Alignment(horizontal='center', vertical='center')
 ws.merge_cells('A1:F1')
 ws.row_dimensions[1].height = 35
 
-ws['A2'] = 'Sistema de Gestión de Pólizas de Seguros - ASEGURNASA'
+ws['A2'] = 'Sistema de Gestión de Pólizas de Seguros - ASEGURANZA'
 ws['A2'].font = Font(size=12, italic=True)
 ws['A2'].alignment = Alignment(horizontal='center')
 ws.merge_cells('A2:F2')
@@ -333,11 +333,11 @@ ws['A97'].fill = titulo_fill
 ws.merge_cells('A97:F97')
 
 plantilla = """
-Asunto: Propuesta - Sistema de Gestión de Pólizas ASEGURNASA
+Asunto: Propuesta - Sistema de Gestión de Pólizas ASEGURANZA
 
 Estimado/a [Nombre del Cliente],
 
-Me complace presentarle el "Sistema de Gestión de Pólizas de Seguros ASEGURNASA", una solución profesional desarrollada específicamente para optimizar la administración de pólizas de vehículos.
+Me complace presentarle el "Sistema de Gestión de Pólizas de Seguros ASEGURANZA", una solución profesional desarrollada específicamente para optimizar la administración de pólizas de vehículos.
 
 CARACTERÍSTICAS PRINCIPALES:
 ✓ Gestión completa de pólizas (crear, editar, eliminar, buscar)
@@ -395,7 +395,7 @@ ws.column_dimensions['E'].width = 20
 ws.column_dimensions['F'].width = 20
 
 # Guardar
-wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Asegurnasa\\COTIZACION_PROFESIONAL.xlsx')
+wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Aseguranza\\COTIZACION_PROFESIONAL.xlsx')
 print("=" * 70)
 print("✓ COTIZACIÓN CREADA EXITOSAMENTE")
 print("=" * 70)

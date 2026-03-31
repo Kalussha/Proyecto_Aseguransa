@@ -1,5 +1,5 @@
 """
-Cotización ajustada para cliente minorista/personal - ASEGURNASA
+Cotización ajustada para cliente minorista/personal - ASEGURANZA
 """
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -30,7 +30,7 @@ ws['A1'].alignment = Alignment(horizontal='center', vertical='center')
 ws.merge_cells('A1:E1')
 ws.row_dimensions[1].height = 30
 
-ws['A2'] = 'Sistema de Gestión de Pólizas ASEGURNASA'
+ws['A2'] = 'Sistema de Gestión de Pólizas ASEGURANZA'
 ws['A2'].font = Font(size=11, italic=True)
 ws['A2'].alignment = Alignment(horizontal='center')
 ws.merge_cells('A2:E2')
@@ -377,7 +377,7 @@ ws.column_dimensions['D'].width = 20
 ws.column_dimensions['E'].width = 30
 
 # Guardar
-wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Asegurnasa\\COTIZACION_MINORISTA.xlsx')
+wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Aseguranza\\COTIZACION_MINORISTA.xlsx')
 
 print("=" * 80)
 print("✓ COTIZACIÓN MINORISTA CREADA EXITOSAMENTE")

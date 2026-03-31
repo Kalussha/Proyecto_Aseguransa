@@ -10,7 +10,7 @@ Aplicación de escritorio moderna para Windows desarrollada con Python, CustomTk
 - ✅ **Gestión completa** de pólizas (Alta, Edición, Eliminación)
 - ✅ **Alertas visuales** para vencimientos próximos (menos de 15 días)
 - ✅ **Exportación a Excel** de pólizas individuales
-- ✅ **Validación de RFC** (12-13 caracteres)
+- ✅ **Validación de RFC (10 caracteres)
 - ✅ **Sin licencias comerciales** - 100% código libre
 
 ## 🖥️ Requisitos del Sistema
@@ -95,7 +95,7 @@ python main.py
 ### Bloque 1: Información Personal
 - Nombre completo (obligatorio)
 - Domicilio completo (Calle, No, CP, Colonia, Municipio, Estado)
-- RFC (12-13 caracteres)
+- RFC (10 caracteres)
 - Email
 
 ### Bloque 2: Datos de Póliza y Vehículo

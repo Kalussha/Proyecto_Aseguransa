@@ -57,6 +57,7 @@ class DatabaseManager:
         
         # Columnas que deben existir (todas las columnas nuevas o que podrían faltar)
         columnas_requeridas = {
+            'tipo_cliente': "ALTER TABLE polizas ADD COLUMN tipo_cliente TEXT DEFAULT 'Cliente Normal'",
             'tipo_moneda': "ALTER TABLE polizas ADD COLUMN tipo_moneda TEXT DEFAULT 'MXN'",
             'uso': "ALTER TABLE polizas ADD COLUMN uso TEXT",
             'servicio': "ALTER TABLE polizas ADD COLUMN servicio TEXT",
@@ -109,6 +110,7 @@ class DatabaseManager:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 -- Bloque 1: Información Personal
                 nombre_completo TEXT NOT NULL,
+                tipo_cliente TEXT DEFAULT 'Cliente Normal',
                 calle TEXT,
                 numero TEXT,
                 codigo_postal TEXT,
@@ -288,14 +290,15 @@ class DatabaseManager:
         
         cursor.execute('''
             INSERT INTO polizas (
-                nombre_completo, calle, numero, codigo_postal, colonia, municipio, estado,
+                nombre_completo, tipo_cliente, calle, numero, codigo_postal, colonia, municipio, estado,
                 rfc, email, telefono, compania_aseguradora, numero_poliza, endoso, inciso,
                 vigencia_inicio, vigencia_fin, forma_pago, fecha_vencimiento_pago, tipo_moneda,
                 marca, modelo, tipo_version, anio, serie_vin, motor, placas, uso, servicio,
                 ultimo_movimiento, prima_total, coberturas_json, comentarios
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             datos.get('nombre_completo', ''),
+            datos.get('tipo_cliente', 'Cliente Normal'),
             datos.get('calle', ''),
             datos.get('numero', ''),
             datos.get('codigo_postal', ''),
@@ -346,7 +349,7 @@ class DatabaseManager:
         
         cursor.execute('''
             UPDATE polizas SET
-                nombre_completo = ?, calle = ?, numero = ?, codigo_postal = ?,
+                nombre_completo = ?, tipo_cliente = ?, calle = ?, numero = ?, codigo_postal = ?,
                 colonia = ?, municipio = ?, estado = ?, rfc = ?, email = ?, telefono = ?,
                 compania_aseguradora = ?, numero_poliza = ?, endoso = ?, inciso = ?,
                 vigencia_inicio = ?, vigencia_fin = ?, forma_pago = ?,
@@ -357,6 +360,7 @@ class DatabaseManager:
             WHERE id = ?
         ''', (
             datos.get('nombre_completo', ''),
+            datos.get('tipo_cliente', 'Cliente Normal'),
             datos.get('calle', ''),
             datos.get('numero', ''),
             datos.get('codigo_postal', ''),
@@ -609,7 +613,7 @@ class DatabaseManager:
         try:
             # Crear mensaje
             mensaje = MIMEMultipart("alternative")
-            mensaje["Subject"] = "ASEGURNASA - Contraseña Temporal"
+            mensaje["Subject"] = "ASEGURANZA - Contraseña Temporal"
             mensaje["From"] = email_remitente
             mensaje["To"] = destinatario
             
@@ -619,14 +623,14 @@ class DatabaseManager:
                 <body style="font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5;">
                     <div style="max-width: 600px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
                         <div style="text-align: center; margin-bottom: 30px;">
-                            <h1 style="color: #1e3a8a; margin: 0;">🚗 ASEGURNASA</h1>
+                            <h1 style="color: #1e3a8a; margin: 0;">🚗 ASEGURANZA</h1>
                             <p style="color: #64748b; margin: 5px 0;">Sistema de Gestión de Pólizas</p>
                         </div>
                         
                         <div style="background-color: #eff6ff; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
                             <h2 style="color: #1e40af; margin-top: 0;">Bienvenido al Sistema</h2>
                             <p style="color: #334155; font-size: 15px; line-height: 1.6;">
-                                Se ha creado una cuenta de usuario para acceder al sistema ASEGURNASA.
+                                Se ha creado una cuenta de usuario para acceder al sistema ASEGURANZA.
                                 A continuación encontrará sus credenciales de acceso:
                             </p>
                         </div>
@@ -657,7 +661,7 @@ class DatabaseManager:
                         
                         <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
                             <p style="color: #94a3b8; font-size: 12px; margin: 0;">
-                                Este es un mensaje automático del sistema ASEGURNASA<br>
+                                Este es un mensaje automático del sistema ASEGURANZA<br>
                                 Por favor no responda a este correo
                             </p>
                         </div>

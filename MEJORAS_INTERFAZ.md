@@ -1,4 +1,4 @@
-# 🎨 MEJORAS DE INTERFAZ GRÁFICA - ASEGURNASA
+# 🎨 MEJORAS DE INTERFAZ GRÁFICA - ASEGURANZA
 
 ## ✅ MEJORAS IMPLEMENTADAS
 
@@ -10,7 +10,7 @@
 
 ### 2. **Encabezado Corporativo**
 Se agregó un encabezado principal con:
-- **Logo y nombre de la empresa:** "🏢 ASEGURNASA - Sistema de Gestión de Pólizas"
+- **Logo y nombre de la empresa:** "🏢 ASEGURANZA - Sistema de Gestión de Pólizas"
 - **Fecha actual:** Muestra la fecha en tiempo real
 - **Contador de pólizas:** Total de pólizas registradas en el sistema
 - **Diseño:** Fondo azul corporativo con bordes redondeados
@@ -115,5 +115,5 @@ Información del sistema en la parte inferior:
 ---
 
 **Fecha de implementación:** 2024
-**Sistema:** ASEGURNASA - Sistema de Gestión de Pólizas de Seguros
+**Sistema:** ASEGURANZA - Sistema de Gestión de Pólizas de Seguros
 **Desarrollado con:** Python + CustomTkinter + SQLite

@@ -1,4 +1,4 @@
-# 📘 Manual de Gestión de Usuarios - ASEGURNASA
+# 📘 Manual de Gestión de Usuarios - ASEGURANZA
 
 ## 🔐 Sistema de Autenticación y Gestión de Usuarios
 
@@ -150,7 +150,7 @@ Para que el sistema pueda enviar emails con contraseñas temporales:
 5. Google generará una contraseña de 16 caracteres (ejemplo: `abcd efgh ijkl mnop`)
 6. **COPIE ESTA CONTRASEÑA** (la necesitará en el sistema)
 
-#### 2. Configurar en ASEGURNASA
+#### 2. Configurar en ASEGURANZA
 
 Al crear un usuario:
 - **Email Remitente:** su_correo@gmail.com
@@ -159,7 +159,7 @@ Al crear un usuario:
 #### 3. Formato del Email Enviado
 
 Los usuarios recibirán un email profesional con:
-- 📌 Logo y branding de ASEGURNASA
+- 📌 Logo y branding de ASEGURANZA
 - 📦 Credenciales en un cuadro amarillo destacado:
   - Usuario
   - Contraseña temporal
@@ -220,7 +220,7 @@ Si un usuario olvida su contraseña:
    - Por **email** (si fue configurado)
    - Por **mensaje directo** (si no hay email)
 
-2. Iniciar sesión en ASEGURNASA:
+2. Iniciar sesión en ASEGURANZA:
    - Usuario: [su_usuario]
    - Contraseña: [contraseña_temporal]
 
@@ -265,7 +265,7 @@ Si un usuario olvida su contraseña:
 
 Para asistencia adicional, contacte al administrador del sistema.
 
-**Sistema:** ASEGURNASA v2.0
+**Sistema:** ASEGURANZA v2.0
 **Última actualización:** Enero 2025
 
 ---

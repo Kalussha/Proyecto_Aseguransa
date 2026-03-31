@@ -1,4 +1,4 @@
-# 📘 GUÍA RÁPIDA - NUEVA INTERFAZ ASEGURNASA
+# 📘 GUÍA RÁPIDA - NUEVA INTERFAZ ASEGURANZA
 
 ## 🚀 INICIO RÁPIDO
 
@@ -59,7 +59,7 @@
 - ⭐ **Nombre Completo** (marcado con *)
 
 **Validaciones automáticas:**
-- RFC debe tener 12 o 13 caracteres
+- RFC debe tener exactamente 10 caracteres
 - Prima Total debe ser un número válido
 
 ---
@@ -171,7 +171,7 @@
 ### Header (Parte Superior)
 ```
 ╔════════════════════════════════════════════════╗
-║ 🏢 ASEGURNASA                                  ║
+║ 🏢 ASEGURANZA                                  ║
 ║ Sistema de Gestión de Pólizas                  ║
 ║ 📅 [Fecha Actual] | 📁 [Total Pólizas]        ║
 ╚════════════════════════════════════════════════╝
@@ -229,7 +229,7 @@ Condición:
 - Exporta periódicamente a Excel como respaldo
 
 ### ✅ Validación de Datos
-- RFC: 12-13 caracteres automáticamente validado
+- RFC: 10 caracteres automáticamente validado
 - Fechas: Formato DD-MM-AAAA (ej: 31-12-2024)
 - Prima: Solo acepta números (puede usar decimales)
 
@@ -282,4 +282,4 @@ README.md           → Documentación completa
 
 **Versión:** 1.0
 **Última actualización:** Enero 2024
-**Desarrollado por:** ASEGURNASA
+**Desarrollado por:** ASEGURANZA

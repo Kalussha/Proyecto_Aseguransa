@@ -57,7 +57,7 @@
 ### Encabezado Global:
 ```
 ╔═══════════════════════════════════════════════════════════╗
-║ 🏢 ASEGURNASA  |  📅 14 de Enero 2024  |  📁 248 Pólizas ║
+║ 🏢 ASEGURANZA  |  📅 14 de Enero 2024  |  📁 248 Pólizas ║
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
@@ -99,7 +99,7 @@
 ┃ │ 👤 INFORMACIÓN PERSONAL                  │ ┃  ← Sección cyan
 ┃ └──────────────────────────────────────────┘ ┃
 ┃                                              ┃
-┃ Nombre Completo *     RFC (12-13 caract..   ┃  ← 2 columnas
+┃ Nombre Completo *     RFC (10 caract..   ┃  ← 2 columnas
 ┃ [campo............]   [campo............]   ┃
 ┃                                              ┃
 ┃ Email                 Calle                  ┃

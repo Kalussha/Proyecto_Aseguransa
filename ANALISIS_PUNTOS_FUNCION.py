@@ -1,5 +1,5 @@
 """
-Script para generar análisis de Puntos de Función del proyecto ASEGURNASA
+Script para generar análisis de Puntos de Función del proyecto ASEGURANZA
 """
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
@@ -36,7 +36,7 @@ ws_resumen.row_dimensions[1].height = 30
 
 # Información del proyecto
 ws_resumen['A3'] = 'PROYECTO:'
-ws_resumen['B3'] = 'ASEGURNASA - Sistema de Gestión de Pólizas de Seguros'
+ws_resumen['B3'] = 'ASEGURANZA - Sistema de Gestión de Pólizas de Seguros'
 ws_resumen['A3'].font = Font(bold=True)
 ws_resumen.merge_cells('B3:H3')
 
@@ -721,7 +721,7 @@ ws_metod['A3'].alignment = Alignment(vertical='top', wrap_text=True)
 ws_metod.column_dimensions['A'].width = 100
 
 # Guardar archivo
-wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Asegurnasa\\ANALISIS_PUNTOS_FUNCION.xlsx')
+wb.save('c:\\Users\\Joshua Rafael\\OneDrive\\Escritorio\\Aseguranza\\ANALISIS_PUNTOS_FUNCION.xlsx')
 print("✓ Archivo creado exitosamente: ANALISIS_PUNTOS_FUNCION.xlsx")
 print("\nRESUMEN:")
 print("- Puntos de Función sin ajustar (UFP): 98")

@@ -116,7 +116,7 @@ el archivo "seguros.db" a otro lugar seguro
 INFORMACIÓN PERSONAL:
 • Nombre completo (OBLIGATORIO)
 • Domicilio completo
-• RFC (debe tener 12 o 13 caracteres)
+• RFC (debe tener exactamente 10 caracteres)
 • Email
 
 DATOS DE PÓLIZA:
