@@ -37,7 +37,10 @@ class DatabaseManager:
             'cambiar_password': "ALTER TABLE usuarios ADD COLUMN cambiar_password INTEGER DEFAULT 1",
             'password_temporal': "ALTER TABLE usuarios ADD COLUMN password_temporal INTEGER DEFAULT 0",
             'fecha_creacion': "ALTER TABLE usuarios ADD COLUMN fecha_creacion TEXT DEFAULT CURRENT_TIMESTAMP",
-            'ultimo_cambio_password': "ALTER TABLE usuarios ADD COLUMN ultimo_cambio_password TEXT"
+            'ultimo_cambio_password': "ALTER TABLE usuarios ADD COLUMN ultimo_cambio_password TEXT",
+            'intentos_fallidos': "ALTER TABLE usuarios ADD COLUMN intentos_fallidos INTEGER DEFAULT 0",
+            'token_6d': "ALTER TABLE usuarios ADD COLUMN token_6d TEXT",
+            'token_generado_en': "ALTER TABLE usuarios ADD COLUMN token_generado_en TEXT"
         }
         
         # Agregar columnas faltantes
@@ -580,6 +583,115 @@ class DatabaseManager:
             return dict(row)
         return None
     
+    def incrementar_intentos_fallidos(self, usuario: str) -> int:
+        """Incrementa el contador de intentos fallidos del usuario."""
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "UPDATE usuarios SET intentos_fallidos = intentos_fallidos + 1 WHERE usuario = ?",
+            (usuario,)
+        )
+        
+        # Obtener el nuevo valor de intentos
+        cursor.execute("SELECT intentos_fallidos FROM usuarios WHERE usuario = ?", (usuario,))
+        row = cursor.fetchone()
+        intentos = row[0] if row else 0
+        
+        conn.commit()
+        conn.close()
+        return intentos
+    
+    def generar_token_6d(self) -> str:
+        """Genera un token de 6 dígitos aleatorios."""
+        return ''.join(secrets.choice(string.digits) for _ in range(6))
+    
+    def guardar_token_6d(self, usuario: str, token: str) -> bool:
+        """Guarda el token de 6 dígitos en la base de datos."""
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        
+        try:
+            cursor.execute(
+                "UPDATE usuarios SET token_6d = ?, token_generado_en = ? WHERE usuario = ?",
+                (token, datetime.now().isoformat(), usuario)
+            )
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            print(f"Error al guardar token: {e}")
+            conn.close()
+            return False
+    
+    def validar_token_6d(self, usuario: str, token: str) -> bool:
+        """Valida el token de 6 dígitos del usuario."""
+        conn = self.get_connection()
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "SELECT token_6d, token_generado_en FROM usuarios WHERE usuario = ?",
+            (usuario,)
+        )
+        
+        row = cursor.fetchone()
+        conn.close()
+        
+        if not row:
+            return False
+        
+        token_guardado = row[0]
+        token_generado_en = row[1]
+        
+        # Verificar que el token sea correcto
+        if token_guardado != token:
+            return False
+        
+        # Verificar que el token no haya expirado (15 minutos)
+        if token_generado_en:
+            fecha_generacion = datetime.fromisoformat(token_generado_en)
+            if datetime.now() - fecha_generacion > timedelta(minutes=15):
+                return False
+        
+        return True
+    
+    def resetear_intentos(self, usuario: str) -> bool:
+        """Resetea los intentos fallidos y limpia el token."""
+        conn = self.get_connection()
+        cursor = conn.cursor()
+        
+        try:
+            cursor.execute(
+                "UPDATE usuarios SET intentos_fallidos = 0, token_6d = NULL, token_generado_en = NULL WHERE usuario = ?",
+                (usuario,)
+            )
+            conn.commit()
+            conn.close()
+            return True
+        except Exception as e:
+            print(f"Error al resetear intentos: {e}")
+            conn.close()
+            return False
+    
+    def obtener_usuario(self, usuario: str) -> Optional[Dict]:
+        """Obtiene la información de un usuario por su nombre de usuario."""
+        conn = self.get_connection()
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        cursor.execute(
+            "SELECT * FROM usuarios WHERE usuario = ?",
+            (usuario,)
+        )
+        
+        row = cursor.fetchone()
+        conn.close()
+        
+        if row:
+            return dict(row)
+        return None
+    
     def generar_password_temporal(self, longitud: int = 12) -> str:
         """Genera una contraseña temporal aleatoria."""
         caracteres = string.ascii_letters + string.digits + "!@#$%&*"
@@ -736,16 +848,23 @@ class DatabaseManager:
         except Exception as e:
             return (False, "", f"Error al crear usuario: {str(e)}")
     
-    def cambiar_password(self, usuario: str, password_actual: str, password_nuevo: str) -> tuple:
+    def cambiar_password(self, usuario: str, password_actual: str, password_nuevo: str, es_token_recuperacion: bool = False) -> tuple:
         """
         Cambia la contraseña de un usuario.
+        
+        Args:
+            usuario: Nombre del usuario
+            password_actual: Contraseña actual (no se valida si es recuperación por token)
+            password_nuevo: Nueva contraseña
+            es_token_recuperacion: Si es True, no valida la contraseña actual
         
         Returns:
             (exito: bool, mensaje: str)
         """
-        # Verificar contraseña actual
-        if not self.verificar_credenciales(usuario, password_actual):
-            return (False, "La contraseña actual es incorrecta")
+        # Verificar contraseña actual (saltar si es recuperación por token)
+        if not es_token_recuperacion:
+            if not self.verificar_credenciales(usuario, password_actual):
+                return (False, "La contraseña actual es incorrecta")
         
         try:
             conn = self.get_connection()

@@ -40,16 +40,23 @@ COLORES = {
 class CambiarPasswordWindow(ctk.CTkToplevel):
     """Ventana para cambiar contraseña (obligatoria o voluntaria)."""
     
-    def __init__(self, parent, db, usuario_data, obligatorio=False):
+    def __init__(self, parent, db, usuario_data, obligatorio=False, es_token_recuperacion=False):
         super().__init__(parent)
         
         self.db = db
         self.usuario_data = usuario_data
         self.obligatorio = obligatorio
+        self.es_token_recuperacion = es_token_recuperacion
         self.password_cambiado = False
         
         # Configuración de ventana
-        titulo = "Cambio de Contraseña Obligatorio" if obligatorio else "Cambiar Contraseña"
+        if es_token_recuperacion:
+            titulo = "Recuperación de Contraseña"
+        elif obligatorio:
+            titulo = "Cambio de Contraseña Obligatorio"
+        else:
+            titulo = "Cambiar Contraseña"
+        
         self.title(f"ASEGURANZA - {titulo}")
         self.geometry("500x600")
         self.resizable(False, False)
@@ -66,8 +73,8 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
         self.transient(parent)
         self.grab_set()
         
-        # Si es obligatorio, no permitir cerrar
-        if obligatorio:
+        # Si es obligatorio o token de recuperación, no permitir cerrar
+        if obligatorio or es_token_recuperacion:
             self.protocol("WM_DELETE_WINDOW", self.no_cerrar)
         
         self.crear_interfaz()
@@ -86,7 +93,12 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
         # Encabezado
-        if self.obligatorio:
+        if self.es_token_recuperacion:
+            header_frame = ctk.CTkFrame(main_frame, fg_color=COLORES["secundario"],)
+            icono_texto = "🔑"
+            titulo_texto = "RECUPERACIÓN DE CUENTA"
+            mensaje = "Su identidad ha sido verificada. Ahora debe establecer una nueva contraseña segura para su cuenta."
+        elif self.obligatorio:
             header_frame = ctk.CTkFrame(main_frame, fg_color=COLORES["peligro"],)
             icono_texto = "⚠️"
             titulo_texto = "CAMBIO DE CONTRASEÑA REQUERIDO"
@@ -133,26 +145,29 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
         form_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
         form_frame.pack(fill="both", expand=True, padx=10)
         
-        # Contraseña actual
-        actual_label = ctk.CTkLabel(
-            form_frame,
-            text="Contraseña Actual:",
-            font=ctk.CTkFont(size=13, weight="bold"),
-            anchor="w"
-        )
-        actual_label.pack(fill="x", pady=(5, 5))
-        
-        self.actual_entry = ctk.CTkEntry(
-            form_frame,
-            placeholder_text="Ingrese su contraseña actual",
-            show="●",
-            height=40,
-            font=ctk.CTkFont(size=13,),
-            border_width=2,
-            border_color=COLORES["borde"]
-        )
-        self.actual_entry.pack(fill="x", pady=(0, 15))
-        self.actual_entry.bind('<Return>', lambda e: self.nueva_entry.focus())
+        # Contraseña actual (solo si no es recuperación por token)
+        if not self.es_token_recuperacion:
+            actual_label = ctk.CTkLabel(
+                form_frame,
+                text="Contraseña Actual:",
+                font=ctk.CTkFont(size=13, weight="bold"),
+                anchor="w"
+            )
+            actual_label.pack(fill="x", pady=(5, 5))
+            
+            self.actual_entry = ctk.CTkEntry(
+                form_frame,
+                placeholder_text="Ingrese su contraseña actual",
+                show="●",
+                height=40,
+                font=ctk.CTkFont(size=13,),
+                border_width=2,
+                border_color=COLORES["borde"]
+            )
+            self.actual_entry.pack(fill="x", pady=(0, 15))
+            self.actual_entry.bind('<Return>', lambda e: self.nueva_entry.focus())
+        else:
+            self.actual_entry = None
         
         # Nueva contraseña
         nueva_label = ctk.CTkLabel(
@@ -237,16 +252,32 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
             cancelar_btn.pack(fill="x")
         
         # Focus inicial
-        self.actual_entry.focus()
+        if self.es_token_recuperacion:
+            self.nueva_entry.focus()
+        else:
+            self.actual_entry.focus()
     
     def cambiar_password(self):
         """Procesa el cambio de contraseña."""
-        actual = self.actual_entry.get()
+        # Si es recuperación por token, no se valida contraseña anterior
+        if self.es_token_recuperacion:
+            actual = None
+        else:
+            actual = self.actual_entry.get()
+        
         nueva = self.nueva_entry.get()
         confirmar = self.confirmar_entry.get()
         
         # Validaciones
-        if not actual or not nueva or not confirmar:
+        if not self.es_token_recuperacion and not actual:
+            messagebox.showerror(
+                "Error",
+                "Todos los campos son obligatorios",
+                parent=self
+            )
+            return
+        
+        if not nueva or not confirmar:
             messagebox.showerror(
                 "Error",
                 "Todos los campos son obligatorios",
@@ -276,7 +307,8 @@ class CambiarPasswordWindow(ctk.CTkToplevel):
         exito, mensaje = self.db.cambiar_password(
             self.usuario_data['usuario'],
             actual,
-            nueva
+            nueva,
+            es_token_recuperacion=self.es_token_recuperacion
         )
         
         if exito:
@@ -656,10 +688,13 @@ class LoginWindow(ctk.CTkToplevel):
         
         self.db = db
         self.usuario_autenticado = None
+        self.token_activo = False
+        self.token_actual = None
+        self.usuario_actual = None
         
         # Configuración de ventana
         self.title("ASEGURANZA - Inicio de Sesión")
-        self.geometry("450x550")
+        self.geometry("600x900")
         self.resizable(False, False)
         
         # Centrar ventana
@@ -681,11 +716,11 @@ class LoginWindow(ctk.CTkToplevel):
         """Crea la interfaz de login."""
         # Frame principal
         main_frame = ctk.CTkFrame(self, fg_color=COLORES["fondo_claro"])
-        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        main_frame.pack(fill="both", expand=True, padx=20, pady=15)
         
         # Logo/Título
         titulo_frame = ctk.CTkFrame(main_frame, fg_color=COLORES["primario"],)
-        titulo_frame.pack(fill="x", pady=(0, 30))
+        titulo_frame.pack(fill="x", pady=(0, 20))
         
         titulo = ctk.CTkLabel(
             titulo_frame,
@@ -705,7 +740,7 @@ class LoginWindow(ctk.CTkToplevel):
         
         # Frame de formulario
         form_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
-        form_frame.pack(fill="both", expand=True, padx=20)
+        form_frame.pack(fill="both", expand=True, padx=15)
         
         # Label de instrucción
         instruccion = ctk.CTkLabel(
@@ -756,6 +791,35 @@ class LoginWindow(ctk.CTkToplevel):
         )
         self.password_entry.pack(fill="x", pady=(0, 25))
         self.password_entry.bind('<Return>', lambda e: self.iniciar_sesion())
+        self.usuario_entry.bind('<KeyRelease>', lambda e: self.reset_token_state())
+        
+        # Frame para mostrar el token (inicialmente oculto)
+        self.token_frame = ctk.CTkFrame(form_frame, fg_color=COLORES["secundario"], corner_radius=10)
+        
+        token_title = ctk.CTkLabel(
+            self.token_frame,
+            text="⚠️ CÓDIGO DE RECUPERACIÓN",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color="white"
+        )
+        token_title.pack(pady=(10, 5))
+        
+        self.token_display = ctk.CTkLabel(
+            self.token_frame,
+            text="",
+            font=ctk.CTkFont(size=48, weight="bold", family="Courier"),
+            text_color="white"
+        )
+        self.token_display.pack(pady=15)
+        
+        token_info = ctk.CTkLabel(
+            self.token_frame,
+            text="Ingrese el código anterior en el campo de contraseña",
+            font=ctk.CTkFont(size=10),
+            text_color="#D3D3D3"
+        )
+        token_info.pack(pady=(0, 10))
+        # No empaquetar token_frame inicial - se empaqueta cuando sea necesario
         
         # Botón de inicio de sesión
         self.login_button = ctk.CTkButton(
@@ -799,10 +863,51 @@ class LoginWindow(ctk.CTkToplevel):
             )
             return
         
-        # Verificar credenciales
+        # Si está esperando token, validar el token ingresado
+        if self.token_activo:
+            if self.db.validar_token_6d(usuario, password):
+                # Token correcto - resetear intentos y preparar cambio obligatorio
+                self.db.resetear_intentos(usuario)
+                
+                # Obtener datos del usuario
+                usuario_data = self.db.obtener_usuario(usuario)
+                if usuario_data:
+                    # Forzar cambio de contraseña
+                    cambio_window = CambiarPasswordWindow(
+                        self,
+                        self.db,
+                        usuario_data,
+                        obligatorio=True,
+                        es_token_recuperacion=True
+                    )
+                    self.wait_window(cambio_window)
+                    
+                    if cambio_window.password_cambiado:
+                        self.usuario_autenticado = usuario_data
+                        self.destroy()
+                    else:
+                        messagebox.showwarning(
+                            "Advertencia",
+                            "Debe cambiar su contraseña para continuar",
+                            parent=self
+                        )
+            else:
+                messagebox.showerror(
+                    "Error",
+                    "Código de recuperación incorrecto o expirado",
+                    parent=self
+                )
+                self.password_entry.delete(0, 'end')
+                self.password_entry.focus()
+            return
+        
+        # Verificar credenciales normales
         usuario_data = self.db.verificar_credenciales(usuario, password)
         
         if usuario_data:
+            # Resetear intentos fallidos al loginear exitosamente
+            self.db.resetear_intentos(usuario)
+            
             # Verificar si debe cambiar contraseña
             if usuario_data.get('cambiar_password') == 1:
                 # Forzar cambio de contraseña
@@ -829,14 +934,259 @@ class LoginWindow(ctk.CTkToplevel):
                 self.usuario_autenticado = usuario_data
                 self.destroy()
         else:
+            # Incrementar intentos fallidos
+            intentos = self.db.incrementar_intentos_fallidos(usuario)
+            
+            if intentos >= 4:
+                # Mostrar token por primera vez o si ya estaba activo
+                if not self.token_activo:
+                    # Generar token de 6 dígitos
+                    token = self.db.generar_token_6d()
+                    self.db.guardar_token_6d(usuario, token)
+                    
+                    self.token_activo = True
+                    self.token_actual = token
+                    self.usuario_actual = usuario
+                    
+                    # Mostrar el token en la interfaz
+                    self.token_display.configure(text=token)
+                    self.token_frame.pack(fill="x", pady=(15, 25), padx=0, before=self.login_button)
+                    
+                    # Cambiar placeholder del campo de contraseña
+                    self.password_entry.delete(0, 'end')
+                    self.password_entry.configure(placeholder_text="Ingrese el código de 6 dígitos", show="")
+                    self.password_entry.focus()
+                    
+                    messagebox.showwarning(
+                        "Intentos Agotados",
+                        "Ha agotado los 4 intentos de contraseña.\n\nIngrese el código de recuperación que se muestra arriba.",
+                        parent=self
+                    )
+                else:
+                    # Token activo pero ingresó código incorrecto nuevamente
+                    messagebox.showerror(
+                        "Error",
+                        "Código de recuperación incorrecto. Intente nuevamente.",
+                        parent=self
+                    )
+                    self.password_entry.delete(0, 'end')
+                    self.password_entry.focus()
+                    return
+            else:
+                intentos_restantes = 4 - intentos
+                messagebox.showerror(
+                    "Error de Autenticación",
+                    f"Usuario o contraseña incorrectos.\nIntentos restantes: {intentos_restantes}",
+                    parent=self
+                )
+                self.password_entry.delete(0, 'end')
+                self.password_entry.focus()
+    
+    def reset_token_state(self):
+        """Resetea el estado del token cuando cambia el usuario."""
+        nuevo_usuario = self.usuario_entry.get().strip()
+        if nuevo_usuario != self.usuario_actual:
+            self.token_activo = False
+            self.token_actual = None
+            self.usuario_actual = None
+            self.token_frame.pack_forget()
+            self.password_entry.configure(placeholder_text="Ingrese su contraseña", show="●")
+
+
+
+class TokenVerificacionWindow(ctk.CTkToplevel):
+    """Ventana para verificar token de 6 dígitos después de 4 intentos fallidos."""
+    
+    def __init__(self, parent, db, usuario, token_correcto):
+        super().__init__(parent)
+        
+        self.db = db
+        self.usuario = usuario
+        self.token_correcto = token_correcto
+        self.token_validado = False
+        
+        # Configuración de ventana
+        self.title("ASEGURANZA - Verificación de Token")
+        self.geometry("500x480")
+        self.resizable(False, False)
+        
+        # Centrar ventana
+        self.update_idletasks()
+        width = self.winfo_width()
+        height = self.winfo_height()
+        x = (self.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.winfo_screenheight() // 2) - (height // 2)
+        self.geometry(f'{width}x{height}+{x}+{y}')
+        
+        # Hacer modal
+        self.transient(parent)
+        self.grab_set()
+        
+        # Crear interfaz
+        self.crear_interfaz()
+    
+    def crear_interfaz(self):
+        """Crea la interfaz de verificación de token."""
+        # Frame principal
+        main_frame = ctk.CTkFrame(self, fg_color=COLORES["fondo_claro"])
+        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        
+        # Logo/Título
+        titulo_frame = ctk.CTkFrame(main_frame, fg_color=COLORES["primario"])
+        titulo_frame.pack(fill="x", pady=(0, 20))
+        
+        titulo = ctk.CTkLabel(
+            titulo_frame,
+            text="🔑 VERIFICACIÓN DE CUENTA",
+            font=ctk.CTkFont(size=24, weight="bold"),
+            text_color="white"
+        )
+        titulo.pack(pady=15)
+        
+        # Frame de contenido
+        content_frame = ctk.CTkFrame(main_frame, fg_color="transparent")
+        content_frame.pack(fill="both", expand=True, padx=20)
+        
+        # Mensaje de instrucción
+        instruccion = ctk.CTkLabel(
+            content_frame,
+            text="Se han detectado múltiples intentos fallidos.\nUse el código que se muestra abajo para verificar su identidad.",
+            font=ctk.CTkFont(size=12),
+            text_color=COLORES["texto_secundario"],
+            justify="center",
+            wraplength=350
+        )
+        instruccion.pack(pady=(0, 25))
+        
+        # Frame para mostrar el token
+        token_display_frame = ctk.CTkFrame(content_frame, fg_color=COLORES["secundario"], corner_radius=10)
+        token_display_frame.pack(fill="x", pady=(0, 25), padx=10, ipady=20)
+        
+        token_title = ctk.CTkLabel(
+            token_display_frame,
+            text="SU CÓDIGO DE VERIFICACIÓN",
+            font=ctk.CTkFont(size=11, weight="bold"),
+            text_color="white"
+        )
+        token_title.pack()
+        
+        # Mostrar el token en grande
+        token_display = ctk.CTkLabel(
+            token_display_frame,
+            text=self.token_correcto,
+            font=ctk.CTkFont(size=40, weight="bold", family="Courier"),
+            text_color="white"
+        )
+        token_display.pack(pady=(10, 0))
+        
+        # Instrucción para copiar/escribir
+        copy_instruction = ctk.CTkLabel(
+            token_display_frame,
+            text="(Copie o escriba este código)",
+            font=ctk.CTkFont(size=10),
+            text_color="#D3D3D3"
+        )
+        copy_instruction.pack(pady=(5, 0))
+        
+        # Token label
+        token_label = ctk.CTkLabel(
+            content_frame,
+            text="Ingrese el código de arriba:",
+            font=ctk.CTkFont(size=13, weight="bold"),
+            anchor="w"
+        )
+        token_label.pack(fill="x", pady=(10, 5))
+        
+        # Token entry
+        self.token_entry = ctk.CTkEntry(
+            content_frame,
+            placeholder_text="Ej: 123456",
+            height=45,
+            font=ctk.CTkFont(size=16, family="Courier"),
+            border_width=2,
+            border_color=COLORES["borde"],
+            justify="center"
+        )
+        self.token_entry.pack(fill="x", pady=(0, 20))
+        self.token_entry.bind('<Return>', lambda e: self.verificar_token())
+        
+        # Label de información
+        info_label = ctk.CTkLabel(
+            content_frame,
+            text="⏱️ El código expira en 15 minutos",
+            font=ctk.CTkFont(size=11),
+            text_color=COLORES["texto_secundario"]
+        )
+        info_label.pack(pady=(0, 20))
+        
+        # Botones
+        button_frame = ctk.CTkFrame(content_frame, fg_color="transparent")
+        button_frame.pack(fill="x", padx=0)
+        
+        verificar_button = ctk.CTkButton(
+            button_frame,
+            text="Verificar",
+            command=self.verificar_token,
+            height=45,
+            font=ctk.CTkFont(size=14, weight="bold"),
+            fg_color=COLORES["primario"],
+            hover_color=COLORES["primario_hover"]
+        )
+        verificar_button.pack(side="left", fill="both", expand=True, padx=(0, 5))
+        
+        cancelar_button = ctk.CTkButton(
+            button_frame,
+            text="Cancelar",
+            command=self.destroy,
+            height=45,
+            font=ctk.CTkFont(size=14, weight="bold"),
+            fg_color=COLORES["secundario"],
+            hover_color=COLORES["secundario_hover"]
+        )
+        cancelar_button.pack(side="left", fill="both", expand=True, padx=(5, 0))
+        
+        # Focus inicial
+        self.token_entry.focus()
+    
+    def verificar_token(self):
+        """Verifica que el token ingresado sea correcto."""
+        token_ingresado = self.token_entry.get().strip()
+        
+        if not token_ingresado:
             messagebox.showerror(
-                "Error de Autenticación",
-                "Usuario o contraseña incorrectos",
+                "Error",
+                "Por favor ingrese el código de verificación",
                 parent=self
             )
-            self.password_entry.delete(0, 'end')
-            self.password_entry.focus()
-
+            return
+        
+        if len(token_ingresado) != 6 or not token_ingresado.isdigit():
+            messagebox.showerror(
+                "Error",
+                "El código debe ser de exactamente 6 dígitos",
+                parent=self
+            )
+            self.token_entry.delete(0, 'end')
+            self.token_entry.focus()
+            return
+        
+        # Validar el token con la base de datos
+        if self.db.validar_token_6d(self.usuario, token_ingresado):
+            self.token_validado = True
+            messagebox.showinfo(
+                "Éxito",
+                "Token verificado correctamente. Proceda a cambiar su contraseña.",
+                parent=self
+            )
+            self.destroy()
+        else:
+            messagebox.showerror(
+                "Error",
+                "Código incorrecto o expirado. Por favor intente nuevamente.",
+                parent=self
+            )
+            self.token_entry.delete(0, 'end')
+            self.token_entry.focus()
 
 
 class AgendaTelefonicaWindow(ctk.CTkToplevel):
